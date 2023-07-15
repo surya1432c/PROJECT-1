@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Employee Card</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    .card {
+      height: 30rem;
+      width: 40rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container mt-5">
+    <div class="card">
+      <div class="card-header bg-primary text-white">
+        <h5 class="mb-0 text-center">Name of Corporation</h5>
+      </div>
+      <div class="card-body text-center">
+        <h6 class="card-title">Identity Card</h6>
+        <p class="card-text" id="name">1. Name of Employee: John Doe</p>
+        <p class="card-text" id="empid">2. Employee ID: EMP001</p>
+        <p class="card-text" id="empmail">3. Email: john.doe@example.com</p>
+        <p class="card-text" id="emppass">4.Password</p>
+      </div>
+    </div>
+  </div>
+</body>
+        <script>
+                document.getElementById("name").innerText = "NAME : "+localStorage.getItem("tempname")
+                document.getElementById("empid").innerText = "EMP ID : "+localStorage.getItem("tempempid")
+                document.getElementById("empmail").innerText = "EMP MAIL : "+localStorage.getItem("tempmail")
+                document.getElementById("emppass").innerText = "EMP PASS : "+localStorage.getItem("emppass")
+
+        </script>
+
+</html>

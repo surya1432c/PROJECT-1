@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Employee Time Sheet</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    .table {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <table class="table table-striped">
+      <thead class="thead-dark">
+        <tr>
+          <th>Emp ID</th>
+          <th>Emp Name</th>
+          <th>Punch In</th>
+          <th>Punch Out</th>
+        </tr>
+      </thead>
+      <tbody id="table-body">
+        <!-- Table rows will be dynamically generated here -->
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    // Open the IndexedDB database
+    const request = indexedDB.open('TimeSheet', 1);
+
+    // Handle database open success
+    request.onsuccess = function(event) {
+      const db = event.target.result;
+
+      // Start a transaction and specify the object store to use
+      const transaction = db.transaction(['emptime'], 'readonly');
+      const objectStore = transaction.objectStore('emptime');
+
+      // Retrieve all records from the object store
+      const getAllRequest = objectStore.getAll();
+
+      getAllRequest.onsuccess = function(event) {
+        const records = event.target.result;
+
+        // Generate table rows dynamically based on the retrieved records
+        const tableBody = document.getElementById('table-body');
+
+        records.forEach(function(record) {
+          const row = document.createElement('tr');
+
+          const empIdCell = document.createElement('td');
+          empIdCell.textContent = record.empId;
+          row.appendChild(empIdCell);
+
+          const empNameCell = document.createElement('td');
+          empNameCell.textContent = record.empName;
+          row.appendChild(empNameCell);
+
+          const punchInCell = document.createElement('td');
+          punchInCell.textContent = record.punchIn;
+          row.appendChild(punchInCell);
+
+          const punchOutCell = document.createElement('td');
+          punchOutCell.textContent = record.punchOut;
+          row.appendChild(punchOutCell);
+
+          tableBody.appendChild(row);
+        });
+      };
+
+      // Handle errors
+      getAllRequest.onerror = function(event) {
+        console.error('Error retrieving records:', event.target.error);
+      };
+
+      // Complete the transaction
+      transaction.oncomplete = function(event) {
+        db.close();
+      };
+    };
+
+    // Handle database open errors
+    request.onerror = function(event) {
+      console.error('Database error:', event.target.error);
+    };
+  </script>
+</body>
+
+</html>
